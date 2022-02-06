@@ -21,7 +21,7 @@ app.use(express.json());
 
 //app.use(methodOverride('_method'));
 
-app.use(express.static(path.join(__dirname, "uploads")));
+app.use(express.static(path.join(__dirname, "/uploads")));
 
 // HTTP logger
 //app.use(morgan('combined'));
