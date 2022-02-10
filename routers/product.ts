@@ -6,9 +6,14 @@ const client = {
     password: process.env.REDIS_PASSWORD,
 };
 const cache = require("express-redis-cache")({
-    options: {
-        client: require("redis").createClient(client),
-    },
+    client: require("redis").createClient(client),
+});
+cache.on("message", function (message: string) {
+    console.log("cache", message);
+});
+
+cache.on("error", function (error: string) {
+    console.error("cache", error);
 });
 //const cache = require("express-redis-cache")();
 const router = express.Router();
