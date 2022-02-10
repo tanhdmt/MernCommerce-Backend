@@ -1,5 +1,11 @@
 export {};
 const express = require("express");
+const cache = require("express-redis-cache")({
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    auth_pass: process.env.REDIS_PASSWORD,
+});
+//const cache = require("express-redis-cache")();
 const router = express.Router();
 const orderController = require("../controllers/OrderController");
 
@@ -11,8 +17,16 @@ router.patch("/:id/status", orderController.status);
 router.delete("/force", orderController.forceDestroy);
 router.delete("/", orderController.destroy);
 router.get("/trash", orderController.trash);
-router.get("/:id/mine", orderController.showByMine);
-router.get("/:id", orderController.showById);
-router.get("/", orderController.show);
+router.get(
+    "/:id/mine",
+    cache.route("getOrderByMine", 86400),
+    orderController.showByMine
+);
+router.get(
+    "/:id",
+    cache.route("getOrderById", 86400),
+    orderController.showById
+);
+router.get("/", cache.route("getAllOrder", 86400), orderController.show);
 
 module.exports = router;
