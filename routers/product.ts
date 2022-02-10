@@ -5,6 +5,13 @@ const cache = require("express-redis-cache")({
     port: process.env.REDIS_PORT,
     auth_pass: process.env.REDIS_PASSWORD,
 });
+cache.on("message", function (message: string) {
+    console.log("cache", message);
+});
+
+cache.on("error", function (error: string) {
+    console.error("cache", error);
+});
 //const cache = require("express-redis-cache")();
 const router = express.Router();
 const productController = require("../controllers/ProductController");
