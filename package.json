@@ -24,6 +24,7 @@
     "mongoose-delete": "^0.5.4",
     "mongoose-slug-generator": "^1.0.4",
     "multer": "^1.4.4",
+    "redis": "^4.0.3",
     "validation": "^0.0.1"
   },
   "devDependencies": {

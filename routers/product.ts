@@ -1,16 +1,11 @@
 export {};
 const express = require("express");
+const client =
+    process.env.NODE_ENV == "production" ? { url: process.env.REDIS_URL } : {};
 const cache = require("express-redis-cache")({
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    auth_pass: process.env.REDIS_PASSWORD,
-});
-cache.on("message", function (message: string) {
-    console.log("cache", message);
-});
-
-cache.on("error", function (error: string) {
-    console.error("cache", error);
+    options: {
+        client: require("redis").createClient(client),
+    },
 });
 //const cache = require("express-redis-cache")();
 const router = express.Router();

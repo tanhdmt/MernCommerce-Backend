@@ -7,6 +7,21 @@ const app = express();
 
 const router = require("./routers");
 const db = require("./config");
+const redis = require("redis");
+import { promisify } from "util";
+
+// create redis client
+// const client =
+//     process.env.NODE_ENV == "production"
+//         ? redis.createClient({ url: process.env.REDIS_URL })
+//         : redis.createClient();
+// client.connect();
+// client.on("connect", function () {
+//     console.log("Connected!");
+// });
+// client.on("error", function (error: string) {
+//     console.error("cache", error);
+// });
 
 // Connect to db
 db.connect();
