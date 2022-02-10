@@ -1,11 +1,11 @@
 export {};
 const express = require("express");
-// const cache = require("express-redis-cache")({
-//     host: process.env.REDIS_HOST,
-//     port: process.env.REDIS_PORT,
-//     auth_pass: process.env.REDIS_PASSWORD,
-// });
-const cache = require("express-redis-cache")();
+const cache = require("express-redis-cache")({
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    auth_pass: process.env.REDIS_PASSWORD,
+});
+// const cache = require("express-redis-cache")();
 const router = express.Router();
 const pageController = require("../controllers/PageController");
 
