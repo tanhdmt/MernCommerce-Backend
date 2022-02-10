@@ -1,7 +1,8 @@
 export {};
 const express = require("express");
-const client =
-    process.env.NODE_ENV == "production" ? { url: process.env.REDIS_URL } : {};
+const client = process.env.NODE_ENV?.includes("production")
+    ? { url: process.env.REDIS_URL }
+    : {};
 const cache = require("express-redis-cache")({
     options: {
         client: require("redis").createClient(client),
