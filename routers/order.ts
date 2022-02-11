@@ -1,9 +1,7 @@
 export {};
 const express = require("express");
 const client = {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT) : 6379,
-    password: process.env.REDIS_PASSWORD,
+    url: process.env.REDIS_URL,
 };
 const cache = require("express-redis-cache")({
     client: require("redis").createClient(client),
