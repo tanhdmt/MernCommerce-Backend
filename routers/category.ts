@@ -23,7 +23,26 @@ router.patch("/restore", cateController.restore);
 router.patch("/:id", cateController.active);
 router.delete("/:id/force", cateController.forceDestroy);
 router.delete("/", cateController.destroy);
-router.get("/:id/edit", cache.route("getCateById", 86400), cateController.edit);
+router.get(
+    "/filter",
+    function (req: any, res: any, next: any) {
+        // set cache name
+        res.express_redis_cache_name = "filterCate-" + req.query.parentCateId;
+        next();
+    },
+    cache.route(86400),
+    cateController.filter
+);
+router.get(
+    "/:id/edit",
+    function (req: any, res: any, next: any) {
+        // set cache name
+        res.express_redis_cache_name = "getCateById-" + req.params.id;
+        next();
+    },
+    cache.route(86400),
+    cateController.edit
+);
 router.get("/trash", cateController.trash);
 router.get("/", cache.route("getAllCate", 86400), cateController.show);
 module.exports = router;

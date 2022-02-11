@@ -24,7 +24,12 @@ router.delete("/force", sizeController.forceDestroy);
 router.delete("/", sizeController.destroy);
 router.get(
     "/:id/edit",
-    cache.route("getSizeById", 86400),
+    function (req: any, res: any, next: any) {
+        // set cache name
+        res.express_redis_cache_name = "getSizeById-" + req.params.id;
+        next();
+    },
+    cache.route(86400),
     sizeController.showById
 );
 router.get("/trash", sizeController.trash);

@@ -31,8 +31,27 @@ router.get(
     productController.search
 );
 router.get(
+    "/filter",
+    function (req: any, res: any, next: any) {
+        // set cache name
+        res.express_redis_cache_name =
+            "filterProduct-" +
+            req.query.cateId +
+            req.query.color +
+            req.query.size;
+        next();
+    },
+    cache.route(86400),
+    productController.filterProduct
+);
+router.get(
     "/:id/edit",
-    cache.route("getProductById", 86400),
+    function (req: any, res: any, next: any) {
+        // set cache name
+        res.express_redis_cache_name = "getProductById-" + req.params.id;
+        next();
+    },
+    cache.route(86400),
     productController.showById
 );
 router.get("/", cache.route("getAllProduct", 86400), productController.show);

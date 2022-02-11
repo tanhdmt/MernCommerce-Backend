@@ -25,7 +25,12 @@ router.delete("/", colorController.destroy);
 router.get("/trash", colorController.trash);
 router.get(
     "/:id/edit",
-    cache.route("getColorById", 86400),
+    function (req: any, res: any, next: any) {
+        // set cache name
+        res.express_redis_cache_name = "getColorById-" + req.params.id;
+        next();
+    },
+    cache.route(86400),
     colorController.showById
 );
 router.get("/", cache.route("getAllColor", 86400), colorController.show);

@@ -146,6 +146,44 @@ class ProductController {
             .catch(next);
     }
 
+    // [GET] /filter
+    filterProduct(
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+    ) {
+        const { cateId, color, size } = req.query;
+        const queryCond = {
+            ...(cateId && {
+                categoryId: {
+                    $regex: ".*" + cateId + ".*",
+                    $options: "i",
+                },
+            }),
+            ...(color && {
+                color: {
+                    $regex: ".*" + color + ".*",
+                    $options: "i",
+                },
+            }),
+            ...(size && {
+                size: { $regex: ".*" + size + ".*", $options: "i" },
+            }),
+            ...{
+                deleted: false,
+            },
+            ...{
+                status: 1,
+            },
+        };
+        productModel
+            .find(queryCond)
+            .then((products: Product[]) => {
+                res.json(products);
+            })
+            .catch(next);
+    }
+
     // [GET] /trash
     trash(
         req: express.Request,

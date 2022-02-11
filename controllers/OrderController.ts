@@ -76,18 +76,6 @@ class OrderController {
             .catch(next);
     }
 
-    // [GET] /:id/mine
-    showByMine = async (
-        req: express.Request,
-        res: express.Response,
-        next: express.NextFunction
-    ) => {
-        await orderModel
-            .find({ user: req.params.id })
-            .then((orders: Order[]) => res.json(orders))
-            .catch(next);
-    };
-
     // [GET] /:id
     showById(
         req: express.Request,

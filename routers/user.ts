@@ -26,7 +26,16 @@ router.patch("/restore", userController.restore);
 router.delete("/force", userController.forceDestroy);
 router.delete("/", userController.destroy);
 router.get("/trash", userController.trash);
-router.get("/:id/edit", cache.route("getUserById", 86400), userController.edit);
+router.get(
+    "/:id/edit",
+    function (req: any, res: any, next: any) {
+        // set cache name
+        res.express_redis_cache_name = "getUserById-" + req.params.id;
+        next();
+    },
+    cache.route(86400),
+    userController.edit
+);
 router.get("/", cache.route("getAllUser", 86400), userController.show);
 // router.post('/handle-form-actions', userController.handleFormAction);
 // router.get('/:slug', userController.showBySlug);

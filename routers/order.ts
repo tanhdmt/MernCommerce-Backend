@@ -26,13 +26,13 @@ router.delete("/force", orderController.forceDestroy);
 router.delete("/", orderController.destroy);
 router.get("/trash", orderController.trash);
 router.get(
-    "/:id/mine",
-    cache.route("getOrderByMine", 86400),
-    orderController.showByMine
-);
-router.get(
     "/:id",
-    cache.route("getOrderById", 86400),
+    function (req: any, res: any, next: any) {
+        // set cache name
+        res.express_redis_cache_name = "getOrderById-" + req.params.id;
+        next();
+    },
+    cache.route(86400),
     orderController.showById
 );
 router.get("/", cache.route("getAllOrder", 86400), orderController.show);

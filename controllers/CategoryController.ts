@@ -212,6 +212,35 @@ class CategoryController {
             .catch(next);
     }
 
+    // [GET] /
+    filter(
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction
+    ) {
+        const { parentCateId, color, size } = req.query;
+        const queryCond = {
+            ...(parentCateId && {
+                parentCate: {
+                    $regex: ".*" + parentCateId + ".*",
+                    $options: "i",
+                },
+            }),
+            ...{
+                deleted: false,
+            },
+            ...{
+                status: 1,
+            },
+        };
+        categoryModel
+            .find(queryCond)
+            .then((products: Category[]) => {
+                res.json(products);
+            })
+            .catch(next);
+    }
+
     // [GET] /trash
     trash(
         req: express.Request,
